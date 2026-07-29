@@ -307,6 +307,15 @@ body{font-size:16px}
 .hero h1{font-size:clamp(2.5rem,4.6vw,4rem)}
 @media(max-width:860px){.hero h1{font-size:clamp(2.1rem,7vw,3rem)}}
 @media(max-width:520px){.hero h1{font-size:clamp(1.75rem,8vw,2.35rem)}}
+
+/* Section headings run long on this page ("Governance, gender equity and national development", etc.) —
+   scale them down and widen their column so they wrap to fewer lines instead of overwhelming the section */
+@media(max-width:860px){:root{--heading-section:clamp(1.9rem,5.2vw,2.35rem)}}
+@media(max-width:520px){
+  :root{--heading-section:clamp(1.65rem,7.6vw,2.05rem)}
+  .editorial-grid h2{max-width:400px}
+  .section-head h2,.compact-head h2{max-width:400px}
+}
 </style>
 
 <!-- Social media asset set for manual posting (create/export at these paths and sizes before publishing):
