@@ -77,7 +77,7 @@ section{padding:76px 0}.section-head{text-align:center;max-width:800px;margin:0 
 .leaders{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.leader{background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px;text-align:center;box-shadow:var(--shadow)}.leader img{width:180px;height:180px;object-fit:cover;object-position:center 18%;border-radius:50%;display:block;margin:0 auto 16px;border:5px solid #fff;box-shadow:0 0 0 3px var(--green),0 0 0 6px var(--gold)}.leader h3{color:var(--navy);margin:8px 0 2px}.leader p{color:var(--green);font-weight:900;margin:0}.leader small{display:block;color:var(--muted);margin-top:8px}
 .cta{text-align:center;background:linear-gradient(135deg,#edf5f0,#fff7df)}.cta h2{font-family:Georgia,serif;color:var(--green);font-size:clamp(2rem,4vw,3.3rem);margin-top:0}.cta p{color:var(--muted);max-width:720px;margin:0 auto 25px}.cta-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
 .contact-section{background:#fff;padding:58px 0}.contact-panel{max-width:900px;margin:auto;background:linear-gradient(135deg,#f7fbf8,#fff8e5);border:1px solid var(--line);border-radius:26px;padding:32px;box-shadow:var(--shadow);text-align:center}.contact-panel h2{font-family:Georgia,serif;color:var(--green);font-size:clamp(1.8rem,3.5vw,2.7rem);margin:0 0 8px}.contact-panel p{color:var(--muted);margin:0 auto 22px}.contact-list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.contact-link{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:92px;padding:15px;border-radius:18px;background:#fff;border:1px solid var(--line);font-weight:900;color:var(--navy);box-shadow:0 8px 22px rgba(11,35,67,.07)}.contact-link span{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--green);margin-bottom:4px}.contact-link:hover{transform:translateY(-2px);border-color:var(--gold)}
-footer{background:#032d20;color:#d9e4de;padding:34px 0}.footer-grid{display:flex;align-items:center;justify-content:space-between;gap:20px}.footer-brand{display:flex;align-items:center;gap:12px}.footer-brand img{width:58px}.footer-links{display:flex;gap:18px;flex-wrap:wrap;font-weight:700}
+footer{background:#032d20;color:#d9e4de;padding:34px 0}.footer-grid{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px}.footer-brand{display:flex;align-items:center;gap:12px}.footer-brand img{width:58px}.footer-links{display:flex;gap:18px;flex-wrap:wrap;font-weight:700}
 .reveal{opacity:0;transform:translateY(16px);animation:rise .7s ease forwards}.reveal.d2{animation-delay:.15s}.reveal.d3{animation-delay:.3s}@keyframes rise{to{opacity:1;transform:none}}
 .theme[open]{background:#f7fbf8;border-color:#b8d3c3;border-top-color:var(--green);transform:translateY(-2px)}
 .theme[open] .theme-number{background:var(--green);color:#fff}.theme[open] summary{background:linear-gradient(180deg,#f4faf6,#fff)}
@@ -310,6 +310,7 @@ body{padding-bottom:0!important}
 .footer-action-primary{background:var(--gold);border-color:var(--gold);color:#102517}
 .footer-action:hover{transform:translateY(-1px);background:rgba(255,255,255,.08)}
 .footer-action-primary:hover{background:var(--gold2)}
+.designer-credit{width:100%;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.18);text-align:center;color:#b9cbc2;font-size:.82rem;line-height:1.55}.designer-credit strong{color:#f2d77f}.save-contact{font-family:inherit;cursor:pointer}.save-contact:disabled{opacity:.65;cursor:wait}
 @media(max-width:860px){.portrait-wrap{padding-bottom:58px}.footer-cta{justify-content:center}.footer-action{width:100%;max-width:340px}}
 @media(max-width:520px){.portrait-wrap{padding-bottom:54px}.speaker-badge{font-size:.76rem!important;max-width:84%!important}.footer-action{font-size:.86rem;padding:11px 14px}}
 </style>
@@ -496,7 +497,7 @@ body{padding-bottom:0!important}
               <a class="contact-action" href="tel:+16783018876" aria-label="Call Kula Sillah">Call</a>
               <a class="contact-action whatsapp" href="https://wa.me/16783018876" target="_blank" rel="noopener" aria-label="WhatsApp Kula Sillah">WhatsApp</a>
               <a class="contact-action" href="sms:+16783018876" aria-label="Text Kula Sillah">Text</a>
-              <a class="contact-action save" href="data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0AVERSION%3A3.0%0AFN%3AKula%20Sillah%0AORG%3ASLPP%20North%20America%20-%20New%20England%20Chapter%0ATITLE%3AChairman%0ATEL%3BTYPE%3DCELL%3A%2B16783018876%0AEND%3AVCARD" download="kula-sillah.vcf" aria-label="Save Kula Sillah to contacts">Save</a>
+              <button class="contact-action save save-contact" type="button" data-name="Kula Sillah" data-title="Chairman" data-phone="+16783018876" data-filename="kula-sillah.vcf" aria-label="Save Kula Sillah to contacts">Save</button>
             </div>
           </article>
           <article class="contact-card">
@@ -512,7 +513,7 @@ body{padding-bottom:0!important}
               <a class="contact-action" href="tel:+16175866320" aria-label="Call Magnus Lamina">Call</a>
               <a class="contact-action whatsapp" href="https://wa.me/16175866320" target="_blank" rel="noopener" aria-label="WhatsApp Magnus Lamina">WhatsApp</a>
               <a class="contact-action" href="sms:+16175866320" aria-label="Text Magnus Lamina">Text</a>
-              <a class="contact-action save" href="data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0AVERSION%3A3.0%0AFN%3AMagnus%20Lamina%0AORG%3ASLPP%20North%20America%20-%20New%20England%20Chapter%0ATITLE%3APublic%20Relations%20Officer%0ATEL%3BTYPE%3DCELL%3A%2B16175866320%0AEND%3AVCARD" download="magnus-lamina.vcf" aria-label="Save Magnus Lamina to contacts">Save</a>
+              <button class="contact-action save save-contact" type="button" data-name="Magnus Lamina" data-title="Public Relations Officer" data-phone="+16175866320" data-filename="magnus-lamina.vcf" aria-label="Save Magnus Lamina to contacts">Save</button>
             </div>
           </article>
           <article class="contact-card">
@@ -528,7 +529,7 @@ body{padding-bottom:0!important}
               <a class="contact-action" href="tel:+16179048615" aria-label="Call Mohamed Kallon">Call</a>
               <a class="contact-action whatsapp" href="https://wa.me/16179048615" target="_blank" rel="noopener" aria-label="WhatsApp Mohamed Kallon">WhatsApp</a>
               <a class="contact-action" href="sms:+16179048615" aria-label="Text Mohamed Kallon">Text</a>
-              <a class="contact-action save" href="data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0AVERSION%3A3.0%0AFN%3AMohamed%20Kallon%0AORG%3ASLPP%20North%20America%20-%20New%20England%20Chapter%0ATITLE%3AFinancial%20Secretary%0ATEL%3BTYPE%3DCELL%3A%2B16179048615%0AEND%3AVCARD" download="mohamed-kallon.vcf" aria-label="Save Mohamed Kallon to contacts">Save</a>
+              <button class="contact-action save save-contact" type="button" data-name="Mohamed Kallon" data-title="Financial Secretary" data-phone="+16179048615" data-filename="mohamed-kallon.vcf" aria-label="Save Mohamed Kallon to contacts">Save</button>
             </div>
           </article>
           <article class="contact-card">
@@ -544,7 +545,7 @@ body{padding-bottom:0!important}
               <a class="contact-action" href="tel:+16178708485" aria-label="Call Christiana M. Wisman">Call</a>
               <a class="contact-action whatsapp" href="https://wa.me/16178708485" target="_blank" rel="noopener" aria-label="WhatsApp Christiana M. Wisman">WhatsApp</a>
               <a class="contact-action" href="sms:+16178708485" aria-label="Text Christiana M. Wisman">Text</a>
-              <a class="contact-action save" href="data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0AVERSION%3A3.0%0AFN%3AChristiana%20M.%20Wisman%0AORG%3ASLPP%20North%20America%20-%20New%20England%20Chapter%0ATITLE%3AWomen%E2%80%99s%20Leader%0ATEL%3BTYPE%3DCELL%3A%2B16178708485%0AEND%3AVCARD" download="christiana-m.-wisman.vcf" aria-label="Save Christiana M. Wisman to contacts">Save</a>
+              <button class="contact-action save save-contact" type="button" data-name="Christiana M. Wisman" data-title="Women’s Leader" data-phone="+16178708485" data-filename="christiana-m-wisman.vcf" aria-label="Save Christiana M. Wisman to contacts">Save</button>
             </div>
           </article>
           <article class="contact-card">
@@ -560,7 +561,7 @@ body{padding-bottom:0!important}
               <a class="contact-action" href="tel:+16179914714" aria-label="Call Mathew Ngaiteh Aruna">Call</a>
               <a class="contact-action whatsapp" href="https://wa.me/16179914714" target="_blank" rel="noopener" aria-label="WhatsApp Mathew Ngaiteh Aruna">WhatsApp</a>
               <a class="contact-action" href="sms:+16179914714" aria-label="Text Mathew Ngaiteh Aruna">Text</a>
-              <a class="contact-action save" href="data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0AVERSION%3A3.0%0AFN%3AMathew%20Ngaiteh%20Aruna%0AORG%3ASLPP%20North%20America%20-%20New%20England%20Chapter%0ATITLE%3AYoung%20Generation%20Leader%0ATEL%3BTYPE%3DCELL%3A%2B16179914714%0AEND%3AVCARD" download="mathew-ngaiteh-aruna.vcf" aria-label="Save Mathew Ngaiteh Aruna to contacts">Save</a>
+              <button class="contact-action save save-contact" type="button" data-name="Mathew Ngaiteh Aruna" data-title="Young Generation Leader" data-phone="+16179914714" data-filename="mathew-ngaiteh-aruna.vcf" aria-label="Save Mathew Ngaiteh Aruna to contacts">Save</button>
             </div>
           </article>
           <article class="contact-card">
@@ -576,7 +577,7 @@ body{padding-bottom:0!important}
               <a class="contact-action" href="tel:+16176306803" aria-label="Call Albert Hinga Jusu">Call</a>
               <a class="contact-action whatsapp" href="https://wa.me/16176306803" target="_blank" rel="noopener" aria-label="WhatsApp Albert Hinga Jusu">WhatsApp</a>
               <a class="contact-action" href="sms:+16176306803" aria-label="Text Albert Hinga Jusu">Text</a>
-              <a class="contact-action save" href="data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0AVERSION%3A3.0%0AFN%3AAlbert%20Hinga%20Jusu%0AORG%3ASLPP%20North%20America%20-%20New%20England%20Chapter%0ATITLE%3AFormer%20Secretary%20General%0ATEL%3BTYPE%3DCELL%3A%2B16176306803%0AEND%3AVCARD" download="albert-hinga-jusu.vcf" aria-label="Save Albert Hinga Jusu to contacts">Save</a>
+              <button class="contact-action save save-contact" type="button" data-name="Albert Hinga Jusu" data-title="Former Secretary General" data-phone="+16176306803" data-filename="albert-hinga-jusu.vcf" aria-label="Save Albert Hinga Jusu to contacts">Save</button>
             </div>
           </article>
         </div>
@@ -592,6 +593,7 @@ body{padding-bottom:0!important}
       <a class="footer-action" href="https://www.katekrontiris.com/" target="_blank" rel="noopener noreferrer">Explore Kate’s Work</a>
       <a class="footer-action" href="https://slppnewenglandchapter.github.io/slpp_new_england_chapter.html">Main Inauguration Website</a>
     </div>
+    <div class="designer-credit">Website designed by <strong>Fomba Kassoh</strong><br>Secretary General, SLPP North America — New York Chapter</div>
   </div>
 </footer>
 <script>
@@ -602,5 +604,51 @@ copyLinkBtn?.addEventListener('click',async()=>{
   catch(error){copyStatus.textContent='Copy failed. Please copy the page address from your browser.';}
   setTimeout(()=>{copyStatus.textContent='';},3000);
 });
+
+document.querySelectorAll('.save-contact').forEach((button)=>{
+  button.addEventListener('click',async()=>{
+    const name=button.dataset.name;
+    const title=button.dataset.title;
+    const phone=button.dataset.phone;
+    const filename=button.dataset.filename || `${name.toLowerCase().replace(/[^a-z0-9]+/g,'-')}.vcf`;
+    const vcard=[
+      'BEGIN:VCARD',
+      'VERSION:3.0',
+      `FN:${name}`,
+      `N:${name.split(' ').slice(-1)[0]};${name.split(' ').slice(0,-1).join(' ')};;;`,
+      'ORG:SLPP North America - New England Chapter',
+      `TITLE:${title}`,
+      `TEL;TYPE=CELL:${phone}`,
+      'END:VCARD'
+    ].join('\r\n');
+    const file=new File([vcard],filename,{type:'text/vcard'});
+    const original=button.textContent;
+    button.disabled=true;
+    button.textContent='Opening…';
+    try{
+      if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],title:`Save ${name}`,text:`Contact card for ${name}`});
+      }else{
+        const url=URL.createObjectURL(file);
+        const link=document.createElement('a');
+        link.href=url;
+        link.download=filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(()=>URL.revokeObjectURL(url),15000);
+      }
+    }catch(error){
+      if(error.name!=='AbortError'){
+        const dataUrl='data:text/vcard;charset=utf-8,'+encodeURIComponent(vcard);
+        window.location.href=dataUrl;
+      }
+    }finally{
+      button.disabled=false;
+      button.textContent=original;
+    }
+  });
+});
+
 </script>
 </body></html>
