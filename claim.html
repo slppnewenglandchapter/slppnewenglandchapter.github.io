@@ -357,9 +357,9 @@
    2. TIERS: each tier needs the base ticket image (QR-free) and the
       pixel (x, y) position of EACH "SERIAL NO. MA-____" text spot on
       that image (there are two on the template: the stub-column one
-      and the bottom-corner one). These coordinates are placeholders —
-      once you upload the actual SLPP New England Chapter ticket art,
-      I'll measure and correct them to match exactly.
+      and the bottom-corner one). Coordinates below were measured
+      directly against the actual SLPP New England Chapter ticket art
+      (1983×793px source), so they should line up precisely.
 ========================================================= */
 const CONFIG = {
   ENDPOINT: 'https://script.google.com/macros/s/AKfycbwMwj9HsmuN87-DQ4m7EvqFpnQc6UfVHdr5TY7c79odiPCOt8aR4w5YiwaevPXLe0zO/exec',
@@ -367,22 +367,22 @@ const CONFIG = {
     single: {
       image: 'images/ticket-single-noqr.png',
       serialSpots: [
-        { x: 1830, y: 355, fontSize: 34, color: '#12315c', align: 'center' }, // stub column
-        { x: 1870, y: 715, fontSize: 30, color: '#faf7ef', align: 'center' }  // bottom corner
+        { x: 1883, y: 356, fontSize: 36, color: '#000000', align: 'center' }, // stub column (black text)
+        { x: 1888, y: 712, fontSize: 30, color: '#ffffff', align: 'center' }  // bottom corner (white text)
       ]
     },
     patron: {
       image: 'images/ticket-patron-noqr.png',
       serialSpots: [
-        { x: 1830, y: 390, fontSize: 34, color: '#12315c', align: 'center' },
-        { x: 1870, y: 715, fontSize: 30, color: '#faf7ef', align: 'center' }
+        { x: 1877, y: 376, fontSize: 36, color: '#000000', align: 'center' },
+        { x: 1892, y: 737, fontSize: 30, color: '#ffffff', align: 'center' }
       ]
     },
     double: {
       image: 'images/ticket-double-noqr.png',
       serialSpots: [
-        { x: 1830, y: 380, fontSize: 34, color: '#12315c', align: 'center' },
-        { x: 1870, y: 715, fontSize: 30, color: '#faf7ef', align: 'center' }
+        { x: 1868, y: 371, fontSize: 36, color: '#000000', align: 'center' },
+        { x: 1881, y: 729, fontSize: 30, color: '#ffffff', align: 'center' }
       ]
     }
   }
@@ -510,11 +510,25 @@ form.addEventListener('submit', async (ev) => {
       return;
     }
 
-    // Always render using the tier the SERVER confirms was issued —
-    // never the client-side radio, since an invite may have overridden it.
-    await renderTicket(data.tier, data.serial);
-    formCard.style.display = 'none';
-    resultCard.style.display = 'block';
+    // The claim itself succeeded the moment the server said ok — render
+    // the ticket image as a separate step so that if THIS fails (e.g. the
+    // artwork file is missing), we don't wrongly tell the person their
+    // claim failed. They already have a real ticket number at this point.
+    try {
+      await renderTicket(data.tier, data.serial);
+      formCard.style.display = 'none';
+      resultCard.style.display = 'block';
+    } catch (renderErr) {
+      formCard.style.display = 'none';
+      resultCard.style.display = 'block';
+      serialLabel.textContent = data.serial;
+      canvas.style.display = 'none';
+      document.querySelector('.actions-row').style.display = 'none';
+      document.querySelector('.save-note').textContent =
+        'Your ticket was claimed successfully — serial ' + data.serial + '. ' +
+        'The ticket image couldn\'t load right now, but your number is already saved. ' +
+        'Please hold onto this serial number; contact an admin if you need the image resent.';
+    }
 
   } catch (err) {
     showError('Could not reach the ticket server. Please check your connection and try again.');
@@ -672,6 +686,9 @@ function showError(msg){
 function renderTicket(tier, serial) {
   return new Promise((resolve, reject) => {
     const tierConfig = CONFIG.TIERS[tier];
+    // The ticket artwork already has "MA-" printed statically — only the
+    // number itself goes in the blank space, or it doubles up as "MA-MA-007".
+    const numberOnly = serial.replace(/^MA-/, '');
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.onload = () => {
@@ -685,7 +702,7 @@ function renderTicket(tier, serial) {
         ctx.fillStyle = spot.color;
         ctx.textAlign = spot.align || 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText(serial, spot.x, spot.y);
+        ctx.fillText(numberOnly, spot.x, spot.y);
       });
 
       serialLabel.textContent = serial;
