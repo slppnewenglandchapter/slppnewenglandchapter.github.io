@@ -151,6 +151,28 @@
   }
   .actions-row{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
   .save-note{ font-size:12px; color:#8a8a8a; margin-top:10px; }
+  .voucher-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border:1px solid #d8d2c2;
+    border-radius:10px;
+    padding:12px 14px;
+    margin-top:10px;
+  }
+  .voucher-row .voucher-label{ font-weight:600; }
+  .voucher-row .voucher-status{ font-size:13px; color:#8a8a8a; }
+  .voucher-row button{
+    padding:8px 16px;
+    background:var(--green);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-weight:700;
+    cursor:pointer;
+    font-size:13px;
+  }
+  .voucher-row button:disabled{ background:#ccc; cursor:default; }
   a.download{
     display:inline-block;
     margin-top:14px;
@@ -178,6 +200,13 @@
 </header>
 
 <main>
+  <div class="card" id="batchCard" style="display:none;">
+    <h2>Vouchers to Share</h2>
+    <p id="batchIntro" style="font-size:14px;color:#444;">You've received <strong id="batchCount"></strong> ticket vouchers to distribute. Tap Share next to each one to send it to a different person via Text or WhatsApp. Once sent, that voucher is marked and can't be re-sent from here.</p>
+    <div id="batchList"></div>
+    <div class="error" id="batchViewError"></div>
+  </div>
+
   <div class="card" id="formCard">
     <h2>Ticket Claim Form</h2>
     <div class="invite-banner" id="inviteBanner" style="display:none;"></div>
@@ -238,7 +267,8 @@
   </div>
 
   <div class="card result" id="resultCard">
-    <h2>Your ticket is ready</h2>
+    <h2 id="resultHeading">Your ticket is ready</h2>
+    <div class="invite-banner" id="alreadyClaimedBanner" style="display:none;"></div>
     <div class="serial" id="serialLabel"></div>
     <canvas id="ticketCanvas"></canvas><br>
     <div class="actions-row">
@@ -262,8 +292,12 @@
     <hr style="margin:20px 0;border:none;border-top:1px solid #e5e0d0;">
 
     <h2 style="font-size:15px;">Generate an invite link</h2>
-    <label for="adminRecipientPhone1">Recipient phone number</label>
-    <input type="tel" id="adminRecipientPhone1" required>
+    <p style="font-size:12px;color:#8a8a8a;margin:0 0 12px;">For one specific known person. Name and phone below are just prefilled as a courtesy — the recipient can still edit them. Only Ticket type locks, if you set it.</p>
+    <label for="adminRecipientName1">Recipient name <span style="font-weight:400;color:#8a8a8a;">(optional, not locked)</span></label>
+    <input type="text" id="adminRecipientName1">
+
+    <label for="adminRecipientPhone1">Recipient phone <span style="font-weight:400;color:#8a8a8a;">(optional, not locked)</span></label>
+    <input type="tel" id="adminRecipientPhone1">
 
     <label for="adminChapter1">Chapter <span style="font-weight:400;color:#8a8a8a;">(optional — blank lets recipient choose)</span></label>
     <select id="adminChapter1">
@@ -302,6 +336,55 @@
     <button type="button" class="submit" id="generateLinkBtn" style="margin-top:16px;">Generate Invite Link</button>
     <div class="error" id="adminLinkError"></div>
     <div id="linkResult" style="display:none;margin-top:14px;padding:12px 14px;background:#fbf3de;border:1px solid var(--gold);border-radius:8px;font-size:13px;word-break:break-all;"></div>
+
+    <hr style="margin:24px 0;border:none;border-top:1px solid #e5e0d0;">
+
+    <h2 style="font-size:15px;">Generate a batch of vouchers (1–10)</h2>
+    <p style="font-size:12px;color:#8a8a8a;margin:0 0 12px;">For handing a stack of vouchers to a distributor (e.g. a chapter leader) who will forward each one to a different person as they go. You get ONE link to send to the distributor — they'll see all the individual vouchers with a Share button next to each.</p>
+
+    <p style="font-size:13px;font-weight:600;margin:14px 0 4px;">How many of each tier? <span style="font-weight:400;color:#8a8a8a;">(total across all four must be 1–10)</span></p>
+
+    <label for="batchSingleCount">Single ($100)</label>
+    <input type="number" id="batchSingleCount" min="0" max="10" value="0">
+
+    <label for="batchPatronCount">Single Patron ($150)</label>
+    <input type="number" id="batchPatronCount" min="0" max="10" value="0">
+
+    <label for="batchDoubleCount">Double Patron ($250)</label>
+    <input type="number" id="batchDoubleCount" min="0" max="10" value="0">
+
+    <label for="batchOpenCount">No fixed tier <span style="font-weight:400;color:#8a8a8a;">(recipient picks their own)</span></label>
+    <input type="number" id="batchOpenCount" min="0" max="10" value="5">
+
+    <label for="batchChapter">Chapter to suggest for all <span style="font-weight:400;color:#8a8a8a;">(optional — blank lets each recipient choose)</span></label>
+    <select id="batchChapter">
+      <option value="">— Let each recipient choose —</option>
+      <option value="No Chapter">No Chapter</option>
+      <option value="Arizona Chapter (AZC)">Arizona Chapter (AZC)</option>
+      <option value="Atlanta GA Chapter (GAC)">Atlanta GA Chapter (GAC)</option>
+      <option value="Chicago Chapter (ILC)">Chicago Chapter (ILC)</option>
+      <option value="Dallas Chapter (TXDC)">Dallas Chapter (TXDC)</option>
+      <option value="Delaware Valley Chapter (DVC)">Delaware Valley Chapter (DVC)</option>
+      <option value="DRC Chapter (DRC)">DRC Chapter (DRC)</option>
+      <option value="Florida Chapter (FLC)">Florida Chapter (FLC)</option>
+      <option value="Houston Chapter (TXHC)">Houston Chapter (TXHC)</option>
+      <option value="Iowa Chapter (IAC)">Iowa Chapter (IAC)</option>
+      <option value="Minnesota Chapter (MNC)">Minnesota Chapter (MNC)</option>
+      <option value="New England Chapter (NEC)">New England Chapter (NEC)</option>
+      <option value="New Jersey Chapter (NJC)">New Jersey Chapter (NJC)</option>
+      <option value="New York Chapter (NYC)">New York Chapter (NYC)</option>
+      <option value="North Dakota Chapter (NDC)">North Dakota Chapter (NDC)</option>
+      <option value="Northern California Chapter (CANC)">Northern California Chapter (CANC)</option>
+      <option value="Ohio Chapter (OHC)">Ohio Chapter (OHC)</option>
+      <option value="Seattle Washington Chapter (SWC)">Seattle Washington Chapter (SWC)</option>
+      <option value="Southern California Chapter (CASC)">Southern California Chapter (CASC)</option>
+      <option value="Virginia Chapter (VAC)">Virginia Chapter (VAC)</option>
+      <option value="Washington DC Chapter (WDC)">Washington DC Chapter (WDC)</option>
+    </select>
+
+    <button type="button" class="submit" id="generateBatchBtn" style="margin-top:16px;">Generate Batch</button>
+    <div class="error" id="adminBatchError"></div>
+    <div id="batchLinkResult" style="display:none;margin-top:14px;padding:12px 14px;background:#fbf3de;border:1px solid var(--gold);border-radius:8px;font-size:13px;word-break:break-all;"></div>
 
     <hr style="margin:24px 0;border:none;border-top:1px solid #e5e0d0;">
 
@@ -425,25 +508,46 @@ async function applyInviteParams() {
     const data = await res.json();
 
     if (!data.ok) {
-      showError(data.error || 'This invite link is not valid.');
+      if (data.alreadyClaimed && data.tier && data.serial) {
+        // Don't dead-end them — show the ticket that was already issued
+        // from this link, with a clear note explaining why they're seeing it.
+        try {
+          await renderTicket(data.tier, data.serial);
+          document.getElementById('resultHeading').textContent = 'This link was already claimed';
+          const banner = document.getElementById('alreadyClaimedBanner');
+          banner.textContent = 'This invite link has already been used. Here is the ticket it issued — save or share it again below.';
+          banner.style.display = 'block';
+          formCard.style.display = 'none';
+          resultCard.style.display = 'block';
+        } catch (renderErr) {
+          showError('This invite link has already been used, and the ticket image could not be reloaded. Contact an admin with serial ' + data.serial + ' if you need it resent.');
+        }
+      } else {
+        showError(data.error || 'This invite link is not valid.');
+      }
       submitBtn.disabled = false;
       submitBtn.textContent = 'Claim My Ticket';
       return;
     }
 
     let lockedNotes = [];
+    let prefillNotes = [];
 
+    // Name, phone, and chapter are prefill-only now — never disabled.
+    // The claimant can always change them; only tier can lock.
+    if (data.name) {
+      document.getElementById('fullName').value = data.name;
+      prefillNotes.push('name');
+    }
     if (data.phone) {
       document.getElementById('phone').value = data.phone;
-      document.getElementById('phone').disabled = true;
-      lockedNotes.push('phone number');
+      prefillNotes.push('phone number');
     }
     if (data.chapter) {
       const chapterSelect = document.getElementById('chapter');
       const match = Array.from(chapterSelect.options).find(o => o.value === data.chapter);
       if (match) chapterSelect.value = data.chapter;
-      chapterSelect.disabled = true;
-      lockedNotes.push('chapter');
+      prefillNotes.push('chapter');
     }
     if (data.tier) {
       const radio = tierPicker.querySelector(`input[value="${data.tier}"]`);
@@ -457,9 +561,15 @@ async function applyInviteParams() {
       }
     }
 
-    inviteBanner.textContent = lockedNotes.length
-      ? `This link locks in your ${lockedNotes.join(', ')} — those can't be changed. Add your name and tap Claim to receive your ticket.`
-      : 'This link was sent to you personally. Fill in your details and tap Claim to receive your ticket.';
+    let bannerText = 'This link was sent to you personally. ';
+    if (prefillNotes.length) {
+      bannerText += `Your ${prefillNotes.join(', ')} ${prefillNotes.length > 1 ? 'have' : 'has'} been filled in — feel free to change ${prefillNotes.length > 1 ? 'them' : 'it'}. `;
+    }
+    if (lockedNotes.length) {
+      bannerText += `Your ${lockedNotes.join(', ')} is locked and can't be changed. `;
+    }
+    bannerText += 'Tap Claim to receive your ticket.';
+    inviteBanner.textContent = bannerText;
     inviteBanner.style.display = 'block';
 
     submitBtn.disabled = false;
@@ -471,7 +581,105 @@ async function applyInviteParams() {
     submitBtn.textContent = 'Claim My Ticket';
   }
 }
-applyInviteParams();
+
+/* -------- Batch links: ?batch=BATCHID
+   Shown to a distributor who received a stack of vouchers to forward.
+   Lists each individual voucher with its own Share button. Once shared,
+   that voucher is marked Dispatched and its button disables — the link
+   itself still works fine for whoever the distributor sent it to. -------- */
+async function loadBatch(batchId) {
+  formCard.style.display = 'none';
+  const batchCard = document.getElementById('batchCard');
+  const batchViewError = document.getElementById('batchViewError');
+  batchCard.style.display = 'block';
+
+  try {
+    const res = await fetch(`${CONFIG.ENDPOINT}?action=batch&batch=${encodeURIComponent(batchId)}`);
+    const data = await res.json();
+
+    if (!data.ok) {
+      batchViewError.textContent = data.error || 'This batch link is not valid.';
+      batchViewError.style.display = 'block';
+      return;
+    }
+
+    document.getElementById('batchCount').textContent = data.vouchers.length;
+    const listEl = document.getElementById('batchList');
+    listEl.innerHTML = '';
+
+    data.vouchers.forEach((v, idx) => {
+      const row = document.createElement('div');
+      row.className = 'voucher-row';
+
+      const label = document.createElement('span');
+      label.className = 'voucher-label';
+      label.textContent = `Voucher #${idx + 1}`;
+      row.appendChild(label);
+
+      if (v.used) {
+        const status = document.createElement('span');
+        status.className = 'voucher-status';
+        status.textContent = 'Claimed ✓';
+        row.appendChild(status);
+      } else if (v.dispatched) {
+        const status = document.createElement('span');
+        status.className = 'voucher-status';
+        status.textContent = 'Sent ✓';
+        row.appendChild(status);
+      } else {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = 'Share';
+        btn.addEventListener('click', async () => {
+          const voucherUrl = `${window.location.origin}${window.location.pathname}?invite=${v.token}`;
+          const shareData = {
+            title: 'SLPP New England Chapter Ticket',
+            text: 'Claim your ticket to the SLPP New England Chapter Executive Inauguration:',
+            url: voucherUrl
+          };
+          let sent = false;
+          if (navigator.share) {
+            try { await navigator.share(shareData); sent = true; } catch (e) { /* cancelled — don't mark sent */ }
+          } else {
+            try {
+              await navigator.clipboard.writeText(voucherUrl);
+              alert('Link copied — paste it into Messages or WhatsApp.');
+              sent = true;
+            } catch (e) {
+              window.prompt('Copy this link:', voucherUrl);
+              sent = true;
+            }
+          }
+          if (sent) {
+            try {
+              await fetch(CONFIG.ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'dispatchVoucher', token: v.token })
+              });
+            } catch (e) { /* best-effort — the row still updates locally */ }
+            btn.disabled = true;
+            btn.textContent = 'Sent ✓';
+          }
+        });
+        row.appendChild(btn);
+      }
+
+      listEl.appendChild(row);
+    });
+
+  } catch (err) {
+    batchViewError.textContent = 'Could not load this batch link. Please check your connection and try again.';
+    batchViewError.style.display = 'block';
+  }
+}
+
+const batchIdParam = new URLSearchParams(window.location.search).get('batch');
+if (batchIdParam) {
+  loadBatch(batchIdParam);
+} else {
+  applyInviteParams();
+}
 
 form.addEventListener('submit', async (ev) => {
   ev.preventDefault();
@@ -490,6 +698,10 @@ form.addEventListener('submit', async (ev) => {
   }
   const tier = tierInput ? tierInput.value : '';
 
+  await submitClaim({ fullName, email, phone, chapter, tier, invite: inviteToken || undefined });
+});
+
+async function submitClaim(payload) {
   submitBtn.disabled = true;
   submitBtn.textContent = 'Claiming your ticket…';
 
@@ -499,11 +711,26 @@ form.addEventListener('submit', async (ev) => {
     const res = await fetch(CONFIG.ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ fullName, email, phone, chapter, tier, invite: inviteToken || undefined })
+      body: JSON.stringify(payload)
     });
     const data = await res.json();
 
     if (!data.ok) {
+      if (data.duplicateWarning) {
+        // Soft speed bump, not a block: ask once, then proceed if confirmed.
+        const proceed = window.confirm(
+          (data.error || 'This contact info has already claimed a ticket.') +
+          ' Claim another ticket anyway?'
+        );
+        if (proceed) {
+          await submitClaim({ ...payload, confirmDuplicate: true });
+          return;
+        } else {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Claim My Ticket';
+          return;
+        }
+      }
       showError(data.error || 'Something went wrong. Please try again.');
       submitBtn.disabled = false;
       submitBtn.textContent = 'Claim My Ticket';
@@ -515,6 +742,10 @@ form.addEventListener('submit', async (ev) => {
     // artwork file is missing), we don't wrongly tell the person their
     // claim failed. They already have a real ticket number at this point.
     try {
+      document.getElementById('resultHeading').textContent = 'Your ticket is ready';
+      document.getElementById('alreadyClaimedBanner').style.display = 'none';
+      canvas.style.display = '';
+      document.querySelector('.actions-row').style.display = '';
       await renderTicket(data.tier, data.serial);
       formCard.style.display = 'none';
       resultCard.style.display = 'block';
@@ -535,7 +766,7 @@ form.addEventListener('submit', async (ev) => {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Claim My Ticket';
   }
-});
+}
 
 claimAnotherBtn.addEventListener('click', () => {
   // Reset for a fresh claim — strips any invite params so the next
@@ -586,13 +817,6 @@ generateLinkBtn.addEventListener('click', async () => {
   adminLinkError.style.display = 'none';
   linkResult.style.display = 'none';
 
-  const recipientPhone = document.getElementById('adminRecipientPhone1').value.trim();
-  if (!recipientPhone) {
-    adminLinkError.textContent = 'Recipient phone number is required.';
-    adminLinkError.style.display = 'block';
-    return;
-  }
-
   generateLinkBtn.disabled = true;
   generateLinkBtn.textContent = 'Generating…';
 
@@ -603,7 +827,8 @@ generateLinkBtn.addEventListener('click', async () => {
       body: JSON.stringify({
         action: 'adminGenerateLink',
         adminPasscode: adminPasscodeValue(),
-        recipientPhone,
+        recipientName: document.getElementById('adminRecipientName1').value.trim(),
+        recipientPhone: document.getElementById('adminRecipientPhone1').value.trim(),
         chapter: document.getElementById('adminChapter1').value,
         tier: document.getElementById('adminTier1').value
       })
@@ -614,11 +839,28 @@ generateLinkBtn.addEventListener('click', async () => {
       adminLinkError.textContent = data.error || 'Could not generate link.';
       adminLinkError.style.display = 'block';
     } else {
-      linkResult.innerHTML = `<strong>Link ready — copy and send it:</strong><br>${data.url}` +
+      linkResult.innerHTML = `<strong>Link ready:</strong><br>${data.url}` +
         `<br><br>${data.tierLocked ? 'Ticket type is locked.' : 'Ticket type NOT locked — recipient chooses.'}` +
-        `<br>${data.chapterLocked ? 'Chapter is locked.' : 'Chapter NOT locked — recipient chooses.'}` +
-        `<br><br>Issued by: ${data.issuedBy}`;
+        `<br>Name and phone are prefilled but not locked.` +
+        `<br><br>Issued by: ${data.issuedBy}` +
+        `<br><br><button type="button" id="shareInviteLinkBtn" style="padding:10px 18px;background:var(--green);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">Share via Text / WhatsApp</button>` +
+        `<span id="shareInviteFallbackNote" style="display:none;font-size:12px;color:#8a8a8a;margin-left:8px;">Sharing isn't supported here — copy the link above instead.</span>`;
       linkResult.style.display = 'block';
+
+      // Wire up the share button freshly each time, since innerHTML above
+      // replaces it — a previously-bound listener wouldn't exist anymore.
+      document.getElementById('shareInviteLinkBtn').addEventListener('click', async () => {
+        const shareData = {
+          title: 'SLPP New England Chapter — Your Ticket Invite',
+          text: 'Claim your ticket to the SLPP New England Chapter Executive Inauguration:',
+          url: data.url
+        };
+        if (navigator.share) {
+          try { await navigator.share(shareData); } catch (e) { /* user cancelled — fine */ }
+        } else {
+          document.getElementById('shareInviteFallbackNote').style.display = 'inline';
+        }
+      });
     }
   } catch (err) {
     adminLinkError.textContent = 'Could not reach the server. Please try again.';
@@ -626,6 +868,68 @@ generateLinkBtn.addEventListener('click', async () => {
   } finally {
     generateLinkBtn.disabled = false;
     generateLinkBtn.textContent = 'Generate Invite Link';
+  }
+});
+
+const generateBatchBtn = document.getElementById('generateBatchBtn');
+const adminBatchError = document.getElementById('adminBatchError');
+const batchLinkResult = document.getElementById('batchLinkResult');
+
+generateBatchBtn.addEventListener('click', async () => {
+  adminBatchError.style.display = 'none';
+  batchLinkResult.style.display = 'none';
+
+  generateBatchBtn.disabled = true;
+  generateBatchBtn.textContent = 'Generating…';
+
+  try {
+    const res = await fetch(CONFIG.ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'adminGenerateBatch',
+        adminPasscode: adminPasscodeValue(),
+        singleCount: document.getElementById('batchSingleCount').value,
+        patronCount: document.getElementById('batchPatronCount').value,
+        doubleCount: document.getElementById('batchDoubleCount').value,
+        openCount: document.getElementById('batchOpenCount').value,
+        chapter: document.getElementById('batchChapter').value
+      })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      adminBatchError.textContent = data.error || 'Could not generate batch.';
+      adminBatchError.style.display = 'block';
+    } else {
+      const b = data.breakdown;
+      batchLinkResult.innerHTML = `<strong>Batch of ${data.count} ready:</strong><br>${data.batchUrl}` +
+        `<br><br>Send this ONE link to your distributor — they'll see all ${data.count} vouchers and can share each one individually.` +
+        `<br>Breakdown: ${b.single} Single, ${b.patron} Patron, ${b.double} Double, ${b.open} no fixed tier.` +
+        `<br><br>Issued by: ${data.issuedBy}` +
+        `<br><br><button type="button" id="shareBatchLinkBtn" style="padding:10px 18px;background:var(--green);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">Share via Text / WhatsApp</button>` +
+        `<span id="shareBatchFallbackNote" style="display:none;font-size:12px;color:#8a8a8a;margin-left:8px;">Sharing isn't supported here — copy the link above instead.</span>`;
+      batchLinkResult.style.display = 'block';
+
+      document.getElementById('shareBatchLinkBtn').addEventListener('click', async () => {
+        const shareData = {
+          title: 'SLPP New England Chapter — Voucher Batch',
+          text: `You have ${data.count} tickets to distribute for the SLPP New England Chapter Executive Inauguration:`,
+          url: data.batchUrl
+        };
+        if (navigator.share) {
+          try { await navigator.share(shareData); } catch (e) { /* cancelled */ }
+        } else {
+          document.getElementById('shareBatchFallbackNote').style.display = 'inline';
+        }
+      });
+    }
+  } catch (err) {
+    adminBatchError.textContent = 'Could not reach the server. Please try again.';
+    adminBatchError.style.display = 'block';
+  } finally {
+    generateBatchBtn.disabled = false;
+    generateBatchBtn.textContent = 'Generate Batch';
   }
 });
 
@@ -664,6 +968,8 @@ issueDirectBtn.addEventListener('click', async () => {
       adminIssueError.textContent = data.error || 'Could not issue ticket.';
       adminIssueError.style.display = 'block';
     } else {
+      document.getElementById('resultHeading').textContent = 'Your ticket is ready';
+      document.getElementById('alreadyClaimedBanner').style.display = 'none';
       await renderTicket(data.tier, data.serial);
       adminCard.style.display = 'none';
       formCard.style.display = 'none';
