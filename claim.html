@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claim Your Ticket — SLPP New England Chapter Executive Inauguration</title>
+<meta name="description" content="Claim your ticket to the SLPP North America New England Chapter Executive Inauguration Celebration. Instant digital voucher — no printing required.">
+<link rel="canonical" href="https://slppnewenglandchapter.github.io/claim.html">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://slppnewenglandchapter.github.io/claim.html">
+<meta property="og:site_name" content="SLPP New England Chapter">
+<meta property="og:title" content="Claim Your Ticket — SLPP New England Chapter Executive Inauguration">
+<meta property="og:description" content="Claim your ticket to the SLPP North America New England Chapter Executive Inauguration Celebration. Instant digital voucher — no printing required.">
+<meta property="og:image" content="https://slppnewenglandchapter.github.io/images/claim-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="SLPP New England Chapter Executive Inauguration Celebration — Claim Your Ticket">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claim Your Ticket — SLPP New England Chapter Executive Inauguration">
+<meta name="twitter:description" content="Claim your ticket to the SLPP North America New England Chapter Executive Inauguration Celebration. Instant digital voucher — no printing required.">
+<meta name="twitter:image" content="https://slppnewenglandchapter.github.io/images/claim-og.jpg">
+<meta name="twitter:image:alt" content="SLPP New England Chapter Executive Inauguration Celebration — Claim Your Ticket">
+<style>
+  :root{
+    --green:#0b3d24;
+    --green-deep:#082c19;
+    --gold:#c9a24b;
+    --gold-light:#e8d39a;
+    --cream:#faf7ef;
+    --ink:#1b1b1b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:var(--green-deep);
+    color:var(--cream);
+    min-height:100vh;
+  }
+  header{
+    text-align:center;
+    padding:40px 20px 24px;
+    border-bottom:1px solid rgba(201,162,75,0.35);
+  }
+  header .eyebrow{
+    letter-spacing:.18em;
+    font-size:12px;
+    color:var(--gold-light);
+    text-transform:uppercase;
+  }
+  header h1{
+    margin:8px 0 4px;
+    font-size:clamp(22px,4vw,34px);
+    color:#fff;
+  }
+  header p{ margin:0; color:rgba(250,247,239,.75); font-size:14px; }
+
+  main{
+    max-width:640px;
+    margin:0 auto;
+    padding:32px 20px 60px;
+  }
+
+  .card{
+    background:var(--cream);
+    color:var(--ink);
+    border-radius:14px;
+    padding:28px;
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+  }
+  .card h2{ margin-top:0; font-size:18px; color:var(--green);}
+  label{ display:block; font-size:13px; font-weight:600; margin:16px 0 6px; }
+  input, select{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid #d8d2c2;
+    border-radius:8px;
+    font-size:15px;
+    background:#fff;
+  }
+  input:focus, select:focus{ outline:2px solid var(--gold); border-color:var(--gold); }
+
+  .tiers{ display:grid; gap:10px; margin-top:8px; }
+  .tier{
+    border:1px solid #d8d2c2;
+    border-radius:10px;
+    padding:12px 14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+  }
+  .tier input{ width:auto; }
+  .tier .price{ margin-left:auto; font-weight:700; color:var(--green); }
+  .tier.selected{ border-color:var(--gold); background:#fbf3de; }
+
+  button.submit{
+    margin-top:22px;
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    background:var(--green);
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  button.submit:disabled{ opacity:.6; cursor:wait; }
+  button.submit:hover:not(:disabled){ background:var(--green-deep); }
+
+  .error{
+    margin-top:14px;
+    padding:12px 14px;
+    background:#fdeaea;
+    color:#8a1f1f;
+    border-radius:8px;
+    font-size:14px;
+    display:none;
+  }
+
+  .result{ display:none; text-align:center; margin-top:10px; }
+  .result canvas{
+    max-width:100%;
+    border-radius:8px;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+  }
+  .result .serial{
+    margin:16px 0 6px;
+    font-size:20px;
+    font-weight:700;
+    color:var(--green);
+  }
+  .invite-banner{
+    background:#fbf3de;
+    border:1px solid var(--gold);
+    color:#5c4a1a;
+    padding:12px 14px;
+    border-radius:8px;
+    font-size:13px;
+    margin-bottom:6px;
+  }
+  select:disabled, input:disabled{
+    background:#f0eee5;
+    color:#555;
+  }
+  .actions-row{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
+  .save-note{ font-size:12px; color:#8a8a8a; margin-top:10px; }
+  a.download{
+    display:inline-block;
+    margin-top:14px;
+    padding:12px 22px;
+    background:var(--gold);
+    color:var(--green-deep);
+    font-weight:700;
+    border-radius:8px;
+    text-decoration:none;
+  }
+  footer{
+    text-align:center;
+    padding:24px 20px 40px;
+    font-size:12px;
+    color:rgba(250,247,239,.55);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">SLPP North America · New England Chapter</div>
+  <h1>Executive Inauguration Celebration</h1>
+  <p>Claim your ticket below — your voucher is generated instantly.</p>
+</header>
+
+<main>
+  <div class="card" id="formCard">
+    <h2>Ticket Claim Form</h2>
+    <div class="invite-banner" id="inviteBanner" style="display:none;"></div>
+    <form id="claimForm">
+      <label for="fullName">Full name</label>
+      <input type="text" id="fullName" required autocomplete="name">
+
+      <label for="email">Email <span style="font-weight:400;color:#8a8a8a;">(optional)</span></label>
+      <input type="email" id="email" autocomplete="email">
+
+      <label for="phone">Phone <span style="font-weight:400;color:#8a8a8a;">(optional)</span></label>
+      <input type="tel" id="phone" autocomplete="tel">
+
+      <label for="chapter">Chapter</label>
+      <select id="chapter">
+        <option value="No Chapter" selected>No Chapter</option>
+        <option value="Arizona Chapter (AZC)">Arizona Chapter (AZC)</option>
+        <option value="Atlanta GA Chapter (GAC)">Atlanta GA Chapter (GAC)</option>
+        <option value="Chicago Chapter (ILC)">Chicago Chapter (ILC)</option>
+        <option value="Dallas Chapter (TXDC)">Dallas Chapter (TXDC)</option>
+        <option value="Delaware Valley Chapter (DVC)">Delaware Valley Chapter (DVC)</option>
+        <option value="DRC Chapter (DRC)">DRC Chapter (DRC)</option>
+        <option value="Florida Chapter (FLC)">Florida Chapter (FLC)</option>
+        <option value="Houston Chapter (TXHC)">Houston Chapter (TXHC)</option>
+        <option value="Iowa Chapter (IAC)">Iowa Chapter (IAC)</option>
+        <option value="Minnesota Chapter (MNC)">Minnesota Chapter (MNC)</option>
+        <option value="New England Chapter (NEC)">New England Chapter (NEC)</option>
+        <option value="New Jersey Chapter (NJC)">New Jersey Chapter (NJC)</option>
+        <option value="New York Chapter (NYC)">New York Chapter (NYC)</option>
+        <option value="North Dakota Chapter (NDC)">North Dakota Chapter (NDC)</option>
+        <option value="Northern California Chapter (CANC)">Northern California Chapter (CANC)</option>
+        <option value="Ohio Chapter (OHC)">Ohio Chapter (OHC)</option>
+        <option value="Seattle Washington Chapter (SWC)">Seattle Washington Chapter (SWC)</option>
+        <option value="Southern California Chapter (CASC)">Southern California Chapter (CASC)</option>
+        <option value="Virginia Chapter (VAC)">Virginia Chapter (VAC)</option>
+        <option value="Washington DC Chapter (WDC)">Washington DC Chapter (WDC)</option>
+      </select>
+
+      <label>Ticket type <span style="font-weight:400;color:#8a8a8a;">(optional — defaults to Single $100 if not chosen)</span></label>
+      <div class="tiers" id="tierPicker">
+        <label class="tier" data-tier="single">
+          <input type="radio" name="tier" value="single">
+          Single <span class="price">$100</span>
+        </label>
+        <label class="tier" data-tier="patron">
+          <input type="radio" name="tier" value="patron">
+          Single Patron <span class="price">$150</span>
+        </label>
+        <label class="tier" data-tier="double">
+          <input type="radio" name="tier" value="double">
+          Double Patron <span class="price">$250</span>
+        </label>
+      </div>
+
+      <button type="submit" class="submit" id="submitBtn">Claim My Ticket</button>
+      <div class="error" id="errorBox"></div>
+    </form>
+  </div>
+
+  <div class="card result" id="resultCard">
+    <h2>Your ticket is ready</h2>
+    <div class="serial" id="serialLabel"></div>
+    <canvas id="ticketCanvas"></canvas><br>
+    <div class="actions-row">
+      <a class="download" id="downloadLink" download="slpp-ne-ticket.png">Download Ticket</a>
+      <button type="button" class="download" id="shareBtn" style="border:none;cursor:pointer;">Share via Text / WhatsApp</button>
+    </div>
+    <p class="save-note">On phones, "Share" opens Messages, WhatsApp, or Save to Photos directly. On desktop, use Download and share the saved image.</p>
+    <button type="button" class="submit" id="claimAnotherBtn" style="margin-top:20px;background:transparent;color:var(--green);border:1px solid var(--green);">Claim Another Ticket</button>
+  </div>
+
+  <p style="text-align:center;margin-top:30px;">
+    <a href="#" id="adminToggle" style="color:var(--gold-light);font-size:13px;text-decoration:underline;font-weight:600;">⚙ Admin tools</a>
+  </p>
+
+  <div class="card" id="adminCard" style="display:none;margin-top:14px;">
+    <h2>Admin Tools</h2>
+    <label for="adminPhone">Your admin phone number</label>
+    <input type="tel" id="adminPhone" placeholder="e.g. 678-301-8876">
+    <p style="font-size:12px;color:#8a8a8a;margin:4px 0 0;">Checked against the admin directory on every action below — nothing here works without it.</p>
+
+    <hr style="margin:20px 0;border:none;border-top:1px solid #e5e0d0;">
+
+    <h2 style="font-size:15px;">Generate an invite link</h2>
+    <label for="adminRecipientPhone1">Recipient phone number</label>
+    <input type="tel" id="adminRecipientPhone1" required>
+
+    <label for="adminChapter1">Chapter <span style="font-weight:400;color:#8a8a8a;">(optional — blank lets recipient choose)</span></label>
+    <select id="adminChapter1">
+      <option value="">— Let recipient choose —</option>
+      <option value="No Chapter">No Chapter</option>
+      <option value="Arizona Chapter (AZC)">Arizona Chapter (AZC)</option>
+      <option value="Atlanta GA Chapter (GAC)">Atlanta GA Chapter (GAC)</option>
+      <option value="Chicago Chapter (ILC)">Chicago Chapter (ILC)</option>
+      <option value="Dallas Chapter (TXDC)">Dallas Chapter (TXDC)</option>
+      <option value="Delaware Valley Chapter (DVC)">Delaware Valley Chapter (DVC)</option>
+      <option value="DRC Chapter (DRC)">DRC Chapter (DRC)</option>
+      <option value="Florida Chapter (FLC)">Florida Chapter (FLC)</option>
+      <option value="Houston Chapter (TXHC)">Houston Chapter (TXHC)</option>
+      <option value="Iowa Chapter (IAC)">Iowa Chapter (IAC)</option>
+      <option value="Minnesota Chapter (MNC)">Minnesota Chapter (MNC)</option>
+      <option value="New England Chapter (NEC)">New England Chapter (NEC)</option>
+      <option value="New Jersey Chapter (NJC)">New Jersey Chapter (NJC)</option>
+      <option value="New York Chapter (NYC)">New York Chapter (NYC)</option>
+      <option value="North Dakota Chapter (NDC)">North Dakota Chapter (NDC)</option>
+      <option value="Northern California Chapter (CANC)">Northern California Chapter (CANC)</option>
+      <option value="Ohio Chapter (OHC)">Ohio Chapter (OHC)</option>
+      <option value="Seattle Washington Chapter (SWC)">Seattle Washington Chapter (SWC)</option>
+      <option value="Southern California Chapter (CASC)">Southern California Chapter (CASC)</option>
+      <option value="Virginia Chapter (VAC)">Virginia Chapter (VAC)</option>
+      <option value="Washington DC Chapter (WDC)">Washington DC Chapter (WDC)</option>
+    </select>
+
+    <label>Ticket type <span style="font-weight:400;color:#8a8a8a;">(optional — blank lets recipient choose)</span></label>
+    <select id="adminTier1">
+      <option value="">— Let recipient choose —</option>
+      <option value="single">Single ($100)</option>
+      <option value="patron">Single Patron ($150)</option>
+      <option value="double">Double Patron ($250)</option>
+    </select>
+
+    <button type="button" class="submit" id="generateLinkBtn" style="margin-top:16px;">Generate Invite Link</button>
+    <div class="error" id="adminLinkError"></div>
+    <div id="linkResult" style="display:none;margin-top:14px;padding:12px 14px;background:#fbf3de;border:1px solid var(--gold);border-radius:8px;font-size:13px;word-break:break-all;"></div>
+
+    <hr style="margin:24px 0;border:none;border-top:1px solid #e5e0d0;">
+
+    <h2 style="font-size:15px;">Issue a ticket directly (walk-in)</h2>
+    <label for="adminFullName">Recipient full name</label>
+    <input type="text" id="adminFullName" required>
+
+    <label for="adminRecipientPhone2">Recipient phone <span style="font-weight:400;color:#8a8a8a;">(optional)</span></label>
+    <input type="tel" id="adminRecipientPhone2">
+
+    <label for="adminChapter2">Chapter</label>
+    <select id="adminChapter2">
+      <option value="No Chapter">No Chapter</option>
+      <option value="Arizona Chapter (AZC)">Arizona Chapter (AZC)</option>
+      <option value="Atlanta GA Chapter (GAC)">Atlanta GA Chapter (GAC)</option>
+      <option value="Chicago Chapter (ILC)">Chicago Chapter (ILC)</option>
+      <option value="Dallas Chapter (TXDC)">Dallas Chapter (TXDC)</option>
+      <option value="Delaware Valley Chapter (DVC)">Delaware Valley Chapter (DVC)</option>
+      <option value="DRC Chapter (DRC)">DRC Chapter (DRC)</option>
+      <option value="Florida Chapter (FLC)">Florida Chapter (FLC)</option>
+      <option value="Houston Chapter (TXHC)">Houston Chapter (TXHC)</option>
+      <option value="Iowa Chapter (IAC)">Iowa Chapter (IAC)</option>
+      <option value="Minnesota Chapter (MNC)">Minnesota Chapter (MNC)</option>
+      <option value="New England Chapter (NEC)">New England Chapter (NEC)</option>
+      <option value="New Jersey Chapter (NJC)">New Jersey Chapter (NJC)</option>
+      <option value="New York Chapter (NYC)">New York Chapter (NYC)</option>
+      <option value="North Dakota Chapter (NDC)">North Dakota Chapter (NDC)</option>
+      <option value="Northern California Chapter (CANC)">Northern California Chapter (CANC)</option>
+      <option value="Ohio Chapter (OHC)">Ohio Chapter (OHC)</option>
+      <option value="Seattle Washington Chapter (SWC)">Seattle Washington Chapter (SWC)</option>
+      <option value="Southern California Chapter (CASC)">Southern California Chapter (CASC)</option>
+      <option value="Virginia Chapter (VAC)">Virginia Chapter (VAC)</option>
+      <option value="Washington DC Chapter (WDC)">Washington DC Chapter (WDC)</option>
+    </select>
+
+    <label>Ticket type</label>
+    <select id="adminTier2">
+      <option value="single">Single ($100)</option>
+      <option value="patron">Single Patron ($150)</option>
+      <option value="double">Double Patron ($250)</option>
+    </select>
+
+    <button type="button" class="submit" id="issueDirectBtn" style="margin-top:16px;">Issue Ticket Directly</button>
+    <div class="error" id="adminIssueError"></div>
+  </div>
+</main>
+
+<footer>SLPP North America — New York Chapter</footer>
+
+<script>
+/* ======================= CONFIG =======================
+   1. ENDPOINT: paste your deployed Apps Script Web App URL here.
+   2. TIERS: each tier needs the base ticket image (QR-free) and the
+      pixel (x, y) position of EACH "SERIAL NO. MA-____" text spot on
+      that image (there are two on the template: the stub-column one
+      and the bottom-corner one). These coordinates are placeholders —
+      once you upload the actual SLPP New England Chapter ticket art,
+      I'll measure and correct them to match exactly.
+========================================================= */
+const CONFIG = {
+  ENDPOINT: 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE',
+  TIERS: {
+    single: {
+      image: 'images/ticket-single-noqr.png',
+      serialSpots: [
+        { x: 1830, y: 355, fontSize: 34, color: '#12315c', align: 'center' }, // stub column
+        { x: 1870, y: 715, fontSize: 30, color: '#faf7ef', align: 'center' }  // bottom corner
+      ]
+    },
+    patron: {
+      image: 'images/ticket-patron-noqr.png',
+      serialSpots: [
+        { x: 1830, y: 390, fontSize: 34, color: '#12315c', align: 'center' },
+        { x: 1870, y: 715, fontSize: 30, color: '#faf7ef', align: 'center' }
+      ]
+    },
+    double: {
+      image: 'images/ticket-double-noqr.png',
+      serialSpots: [
+        { x: 1830, y: 380, fontSize: 34, color: '#12315c', align: 'center' },
+        { x: 1870, y: 715, fontSize: 30, color: '#faf7ef', align: 'center' }
+      ]
+    }
+  }
+};
+/* ======================================================= */
+
+const tierPicker = document.getElementById('tierPicker');
+tierPicker.addEventListener('change', () => {
+  document.querySelectorAll('.tier').forEach(el => el.classList.remove('selected'));
+  const checked = tierPicker.querySelector('input:checked');
+  if (checked) checked.closest('.tier').classList.add('selected');
+});
+
+const form = document.getElementById('claimForm');
+const submitBtn = document.getElementById('submitBtn');
+const errorBox = document.getElementById('errorBox');
+const formCard = document.getElementById('formCard');
+const resultCard = document.getElementById('resultCard');
+const serialLabel = document.getElementById('serialLabel');
+const canvas = document.getElementById('ticketCanvas');
+const downloadLink = document.getElementById('downloadLink');
+const shareBtn = document.getElementById('shareBtn');
+const claimAnotherBtn = document.getElementById('claimAnotherBtn');
+const inviteBanner = document.getElementById('inviteBanner');
+
+/* -------- Admin-generated invite links: ?invite=TOKEN
+   The token carries no data itself — we ask the backend what (if
+   anything) the admin locked for this invite. Only the backend's answer
+   is trusted; nothing in the URL can override a locked field. -------- */
+async function applyInviteParams() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('invite');
+  if (!token) return;
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Loading your invite…';
+
+  try {
+    const res = await fetch(`${CONFIG.ENDPOINT}?action=invite&token=${encodeURIComponent(token)}`);
+    const data = await res.json();
+
+    if (!data.ok) {
+      showError(data.error || 'This invite link is not valid.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Claim My Ticket';
+      return;
+    }
+
+    let lockedNotes = [];
+
+    if (data.phone) {
+      document.getElementById('phone').value = data.phone;
+      document.getElementById('phone').disabled = true;
+      lockedNotes.push('phone number');
+    }
+    if (data.chapter) {
+      const chapterSelect = document.getElementById('chapter');
+      const match = Array.from(chapterSelect.options).find(o => o.value === data.chapter);
+      if (match) chapterSelect.value = data.chapter;
+      chapterSelect.disabled = true;
+      lockedNotes.push('chapter');
+    }
+    if (data.tier) {
+      const radio = tierPicker.querySelector(`input[value="${data.tier}"]`);
+      if (radio) {
+        radio.checked = true;
+        radio.closest('.tier').classList.add('selected');
+        tierPicker.querySelectorAll('input[name="tier"]').forEach(r => {
+          if (r !== radio) r.disabled = true;
+        });
+        lockedNotes.push('ticket type');
+      }
+    }
+
+    inviteBanner.textContent = lockedNotes.length
+      ? `This link locks in your ${lockedNotes.join(', ')} — those can't be changed. Add your name and tap Claim to receive your ticket.`
+      : 'This link was sent to you personally. Fill in your details and tap Claim to receive your ticket.';
+    inviteBanner.style.display = 'block';
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Claim My Ticket';
+
+  } catch (err) {
+    showError('Could not load this invite link. Please check your connection and try again.');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Claim My Ticket';
+  }
+}
+applyInviteParams();
+
+form.addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  errorBox.style.display = 'none';
+
+  const fullName = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const chapter = document.getElementById('chapter').value;
+  const tierInput = form.querySelector('input[name="tier"]:checked');
+  const inviteToken = new URLSearchParams(window.location.search).get('invite');
+
+  if (!fullName) {
+    showError('Please fill in your name.');
+    return;
+  }
+  const tier = tierInput ? tierInput.value : '';
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Claiming your ticket…';
+
+  try {
+    // Apps Script web apps require a "simple" content type to skip CORS
+    // preflight — text/plain works, Apps Script still reads it as JSON.
+    const res = await fetch(CONFIG.ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ fullName, email, phone, chapter, tier, invite: inviteToken || undefined })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      showError(data.error || 'Something went wrong. Please try again.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Claim My Ticket';
+      return;
+    }
+
+    // Always render using the tier the SERVER confirms was issued —
+    // never the client-side radio, since an invite may have overridden it.
+    await renderTicket(data.tier, data.serial);
+    formCard.style.display = 'none';
+    resultCard.style.display = 'block';
+
+  } catch (err) {
+    showError('Could not reach the ticket server. Please check your connection and try again.');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Claim My Ticket';
+  }
+});
+
+claimAnotherBtn.addEventListener('click', () => {
+  // Reset for a fresh claim — strips any invite params so the next
+  // claim on this device starts as an ordinary open form.
+  window.location.href = window.location.pathname;
+});
+
+shareBtn.addEventListener('click', async () => {
+  try {
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    const file = new File([blob], `slpp-ne-ticket-${serialLabel.textContent}.png`, { type: 'image/png' });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        files: [file],
+        title: 'My SLPP Ticket',
+        text: `My SLPP New England Chapter ticket — ${serialLabel.textContent}`
+      });
+    } else {
+      alert('Sharing isn\'t supported on this browser. Please use Download instead, then share the saved image from your Photos app.');
+    }
+  } catch (err) {
+    // User cancelled the share sheet — not an error worth surfacing.
+  }
+});
+
+/* ======================= ADMIN PANEL =======================
+   Hidden behind a small "Admin tools" link so ordinary guests never see
+   it. The real gate is server-side: every action below sends adminPhone,
+   and the backend rejects anything that doesn't match ADMIN_DIRECTORY.
+============================================================= */
+const adminToggle = document.getElementById('adminToggle');
+const adminCard = document.getElementById('adminCard');
+adminToggle.addEventListener('click', (ev) => {
+  ev.preventDefault();
+  adminCard.style.display = adminCard.style.display === 'none' ? 'block' : 'none';
+});
+
+function adminPhoneValue() {
+  return document.getElementById('adminPhone').value.trim();
+}
+
+const generateLinkBtn = document.getElementById('generateLinkBtn');
+const adminLinkError = document.getElementById('adminLinkError');
+const linkResult = document.getElementById('linkResult');
+
+generateLinkBtn.addEventListener('click', async () => {
+  adminLinkError.style.display = 'none';
+  linkResult.style.display = 'none';
+
+  const recipientPhone = document.getElementById('adminRecipientPhone1').value.trim();
+  if (!recipientPhone) {
+    adminLinkError.textContent = 'Recipient phone number is required.';
+    adminLinkError.style.display = 'block';
+    return;
+  }
+
+  generateLinkBtn.disabled = true;
+  generateLinkBtn.textContent = 'Generating…';
+
+  try {
+    const res = await fetch(CONFIG.ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'adminGenerateLink',
+        adminPhone: adminPhoneValue(),
+        recipientPhone,
+        chapter: document.getElementById('adminChapter1').value,
+        tier: document.getElementById('adminTier1').value
+      })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      adminLinkError.textContent = data.error || 'Could not generate link.';
+      adminLinkError.style.display = 'block';
+    } else {
+      linkResult.innerHTML = `<strong>Link ready — copy and send it:</strong><br>${data.url}` +
+        `<br><br>${data.tierLocked ? 'Ticket type is locked.' : 'Ticket type NOT locked — recipient chooses.'}` +
+        `<br>${data.chapterLocked ? 'Chapter is locked.' : 'Chapter NOT locked — recipient chooses.'}` +
+        `<br><br>Issued by: ${data.issuedBy}`;
+      linkResult.style.display = 'block';
+    }
+  } catch (err) {
+    adminLinkError.textContent = 'Could not reach the server. Please try again.';
+    adminLinkError.style.display = 'block';
+  } finally {
+    generateLinkBtn.disabled = false;
+    generateLinkBtn.textContent = 'Generate Invite Link';
+  }
+});
+
+const issueDirectBtn = document.getElementById('issueDirectBtn');
+const adminIssueError = document.getElementById('adminIssueError');
+
+issueDirectBtn.addEventListener('click', async () => {
+  adminIssueError.style.display = 'none';
+
+  const fullName = document.getElementById('adminFullName').value.trim();
+  if (!fullName) {
+    adminIssueError.textContent = 'Recipient full name is required.';
+    adminIssueError.style.display = 'block';
+    return;
+  }
+
+  issueDirectBtn.disabled = true;
+  issueDirectBtn.textContent = 'Issuing…';
+
+  try {
+    const res = await fetch(CONFIG.ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'adminIssueDirect',
+        adminPhone: adminPhoneValue(),
+        fullName,
+        recipientPhone: document.getElementById('adminRecipientPhone2').value.trim(),
+        chapter: document.getElementById('adminChapter2').value,
+        tier: document.getElementById('adminTier2').value
+      })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      adminIssueError.textContent = data.error || 'Could not issue ticket.';
+      adminIssueError.style.display = 'block';
+    } else {
+      await renderTicket(data.tier, data.serial);
+      adminCard.style.display = 'none';
+      formCard.style.display = 'none';
+      resultCard.style.display = 'block';
+    }
+  } catch (err) {
+    adminIssueError.textContent = 'Could not reach the server. Please try again.';
+    adminIssueError.style.display = 'block';
+  } finally {
+    issueDirectBtn.disabled = false;
+    issueDirectBtn.textContent = 'Issue Ticket Directly';
+  }
+});
+
+function showError(msg){
+  errorBox.textContent = msg;
+  errorBox.style.display = 'block';
+}
+
+function renderTicket(tier, serial) {
+  return new Promise((resolve, reject) => {
+    const tierConfig = CONFIG.TIERS[tier];
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      tierConfig.serialSpots.forEach(spot => {
+        ctx.font = `700 ${spot.fontSize}px 'Segoe UI', sans-serif`;
+        ctx.fillStyle = spot.color;
+        ctx.textAlign = spot.align || 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(serial, spot.x, spot.y);
+      });
+
+      serialLabel.textContent = serial;
+      downloadLink.href = canvas.toDataURL('image/png');
+      downloadLink.download = `slpp-ne-ticket-${serial}.png`;
+      resolve();
+    };
+    img.onerror = reject;
+    img.src = tierConfig.image;
+  });
+}
+</script>
+</body>
+</html>
