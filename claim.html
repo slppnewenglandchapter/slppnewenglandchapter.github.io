@@ -255,8 +255,8 @@
 
   <div class="card" id="adminCard" style="display:none;margin-top:14px;">
     <h2>Admin Tools</h2>
-    <label for="adminPhone">Your admin phone number</label>
-    <input type="tel" id="adminPhone" placeholder="e.g. 678-301-8876">
+    <label for="adminPasscode">Admin passcode</label>
+    <input type="password" id="adminPasscode" placeholder="Enter your admin passcode" autocomplete="off">
     <p style="font-size:12px;color:#8a8a8a;margin:4px 0 0;">Checked against the admin directory on every action below — nothing here works without it.</p>
 
     <hr style="margin:20px 0;border:none;border-top:1px solid #e5e0d0;">
@@ -362,7 +362,7 @@
       I'll measure and correct them to match exactly.
 ========================================================= */
 const CONFIG = {
-  ENDPOINT: 'https://script.google.com/macros/s/AKfycbwMwj9HsmuN87-DQ4m7EvqFpnQc6UfVHdr5TY7c79odiPCOt8aR4w5YiwaevPXLe0zO/exec',
+  ENDPOINT: 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE',
   TIERS: {
     single: {
       image: 'images/ticket-single-noqr.png',
@@ -550,7 +550,7 @@ shareBtn.addEventListener('click', async () => {
 
 /* ======================= ADMIN PANEL =======================
    Hidden behind a small "Admin tools" link so ordinary guests never see
-   it. The real gate is server-side: every action below sends adminPhone,
+   it. The real gate is server-side: every action below sends adminPasscode,
    and the backend rejects anything that doesn't match ADMIN_DIRECTORY.
 ============================================================= */
 const adminToggle = document.getElementById('adminToggle');
@@ -560,8 +560,8 @@ adminToggle.addEventListener('click', (ev) => {
   adminCard.style.display = adminCard.style.display === 'none' ? 'block' : 'none';
 });
 
-function adminPhoneValue() {
-  return document.getElementById('adminPhone').value.trim();
+function adminPasscodeValue() {
+  return document.getElementById('adminPasscode').value.trim();
 }
 
 const generateLinkBtn = document.getElementById('generateLinkBtn');
@@ -588,7 +588,7 @@ generateLinkBtn.addEventListener('click', async () => {
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
         action: 'adminGenerateLink',
-        adminPhone: adminPhoneValue(),
+        adminPasscode: adminPasscodeValue(),
         recipientPhone,
         chapter: document.getElementById('adminChapter1').value,
         tier: document.getElementById('adminTier1').value
@@ -637,7 +637,7 @@ issueDirectBtn.addEventListener('click', async () => {
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
         action: 'adminIssueDirect',
-        adminPhone: adminPhoneValue(),
+        adminPasscode: adminPasscodeValue(),
         fullName,
         recipientPhone: document.getElementById('adminRecipientPhone2').value.trim(),
         chapter: document.getElementById('adminChapter2').value,
