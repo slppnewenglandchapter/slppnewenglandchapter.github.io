@@ -99,6 +99,8 @@
 <div id="adminPasscodeWrap">
   <label for="adminPasscode" style="color:var(--gold-light);">Admin passcode</label>
   <input type="password" id="adminPasscode" placeholder="Enter your admin passcode" autocomplete="off">
+  <button type="button" id="unlockBtn" style="margin-top:10px;padding:10px 18px;background:var(--gold);color:var(--green-deep);border:none;border-radius:8px;font-weight:700;cursor:pointer;">Unlock</button>
+  <div class="error" id="unlockError" style="display:none;margin-top:10px;"></div>
 </div>
 
 <main>
@@ -187,6 +189,8 @@
   <!-- ============== GENERATE VOUCHERS (unified: 1 to 10) ============== -->
   <div class="card admin-section-generate" id="panelGenerate" style="display:none;">
     <h2>Generate Vouchers</h2>
+    <p id="generateGateMessage" style="font-size:14px;color:#555;">🔒 Enter your admin passcode above and click Unlock to access this section.</p>
+    <div id="generateContent" style="display:none;">
     <p style="font-size:12px;color:#555;margin:0 0 12px;">Always produces ONE link for a distributor — even a single voucher for one known person works the same way as a stack of ten for a chapter leader to hand out.</p>
 
     <p style="font-size:13px;font-weight:600;margin:14px 0 4px;">How many of each tier? <span style="font-weight:400;color:#555;">(total 1–10)</span></p>
@@ -233,11 +237,14 @@
     <button type="button" class="submit" id="generateBtn" style="margin-top:16px;">Generate Vouchers</button>
     <div class="error" id="generateError"></div>
     <div id="generateResult" class="result-box" style="display:none;"></div>
+    </div>
   </div>
 
   <!-- ============== CHECK-IN: GUEST WITH TICKET + WALK-IN ============== -->
   <div class="card admin-section-checkin" id="panelCheckin" style="display:none;">
     <h2>Check-In</h2>
+    <p id="checkinGateMessage" style="font-size:14px;color:#555;">🔒 Enter your admin passcode above and click Unlock to access this section.</p>
+    <div id="checkinContent" style="display:none;">
     <h3>Guest With Ticket</h3>
     <label for="checkInSerial">Ticket number</label>
     <input type="text" id="checkInSerial" placeholder="e.g. MA-007 or just 007">
@@ -296,6 +303,7 @@
     </select>
     <button type="button" class="submit" id="walkInBtn" style="margin-top:16px;">Sell &amp; Check In</button>
     <div class="error" id="walkInError"></div>
+    </div>
   </div>
 
   <!-- ============== CHECK-IN SUMMARY ============== -->
@@ -383,6 +391,48 @@ function showTab(name) {
   resultCard.style.display = 'none'; // switching tabs always leaves the "ticket ready" view
 }
 document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => showTab(btn.dataset.tab)));
+
+/* -------- Unlock: verifies the passcode once, then reveals both the
+   Generate Vouchers and Check-In content (Summary stays visible either
+   way, but its own action still checks the passcode server-side). -------- */
+let adminVerified = false;
+const unlockBtn = document.getElementById('unlockBtn');
+const unlockError = document.getElementById('unlockError');
+
+unlockBtn.addEventListener('click', async () => {
+  unlockError.style.display = 'none';
+  unlockBtn.disabled = true;
+  unlockBtn.textContent = 'Checking…';
+
+  try {
+    const res = await fetch(CONFIG.ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'verifyPasscode', adminPasscode: adminPasscodeValue() })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      unlockError.textContent = data.error || 'Incorrect passcode.';
+      unlockError.style.display = 'block';
+      unlockBtn.disabled = false;
+      unlockBtn.textContent = 'Unlock';
+    } else {
+      adminVerified = true;
+      document.getElementById('generateGateMessage').style.display = 'none';
+      document.getElementById('generateContent').style.display = 'block';
+      document.getElementById('checkinGateMessage').style.display = 'none';
+      document.getElementById('checkinContent').style.display = 'block';
+      unlockBtn.textContent = 'Unlocked ✓';
+      unlockBtn.disabled = true;
+    }
+  } catch (err) {
+    unlockError.textContent = 'Could not reach the server. Please try again.';
+    unlockError.style.display = 'block';
+    unlockBtn.disabled = false;
+    unlockBtn.textContent = 'Unlock';
+  }
+});
 
 /* -------- Voucher links: ?voucher=TOKEN. Name/phone/chapter prefill only
    (never locked); tier is the one field that locks if the admin set it. -------- */
