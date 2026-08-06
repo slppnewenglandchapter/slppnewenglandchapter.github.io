@@ -108,8 +108,10 @@
   <!-- DISTRIBUTOR VIEW: shown when opened with ?batch=TOKEN -->
   <div class="card" id="batchCard" style="display:none;">
     <h2>Vouchers to Distribute</h2>
-    <p id="batchIntro" style="font-size:14px;color:#444;">You've received <strong id="batchCount"></strong> ticket voucher(s). Tap Share to send one to a different person via Text or WhatsApp, or Claim one for yourself. Once sent or claimed, that voucher is locked in and can't be reused.</p>
+    <p id="batchIntro" style="font-size:14px;color:#444;">You've received <strong id="batchCount"></strong> ticket voucher(s). Tap Share to send one to a different person via Text or WhatsApp, or Claim one for yourself. Once sent or claimed, that voucher is locked in and can't be reused. Already-claimed vouchers can always be reopened with "View Ticket."</p>
+    <button type="button" id="refreshBatchBtn" style="padding:8px 16px;background:transparent;color:var(--green);border:1px solid var(--green);border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">↻ Refresh Status</button>
     <div id="batchList"></div>
+    <p class="save-note">Status here only updates on refresh — reopen this link or tap Refresh if you're unsure whether a "Sent" voucher has since been claimed.</p>
     <div class="error" id="batchViewError"></div>
   </div>
 
@@ -539,10 +541,19 @@ async function loadBatch(batchId) {
         status.className = 'voucher-status';
         status.textContent = 'Claimed ✓';
         row.appendChild(status);
+
+        const viewBtn = document.createElement('button');
+        viewBtn.type = 'button';
+        viewBtn.className = 'secondary';
+        viewBtn.textContent = 'View Ticket';
+        viewBtn.addEventListener('click', () => {
+          window.location.href = `${window.location.pathname}?voucher=${v.token}`;
+        });
+        row.appendChild(viewBtn);
       } else if (v.dispatched) {
         const status = document.createElement('span');
         status.className = 'voucher-status';
-        status.textContent = 'Sent ✓';
+        status.textContent = 'Sent — not yet claimed';
         row.appendChild(status);
       } else {
         const actions = document.createElement('div');
@@ -596,6 +607,14 @@ const batchIdParam = new URLSearchParams(window.location.search).get('batch');
 const voucherIdParam = new URLSearchParams(window.location.search).get('voucher');
 if (batchIdParam) {
   loadBatch(batchIdParam);
+  document.getElementById('refreshBatchBtn').addEventListener('click', (ev) => {
+    ev.target.disabled = true;
+    ev.target.textContent = 'Refreshing…';
+    loadBatch(batchIdParam).finally(() => {
+      ev.target.disabled = false;
+      ev.target.textContent = '↻ Refresh Status';
+    });
+  });
 } else if (voucherIdParam) {
   applyVoucherParams(); // tab bar stays hidden — this is a dedicated claimant link, not general navigation
 } else {
