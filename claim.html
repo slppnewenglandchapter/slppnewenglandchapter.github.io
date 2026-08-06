@@ -310,7 +310,16 @@
 
   <!-- ============== CHECK-IN SUMMARY ============== -->
   <div class="card admin-section-summary" id="panelSummary" style="display:none;">
-    <h2>Check-In Summary</h2>
+    <h2>Reporting</h2>
+
+    <h3>All Vouchers Issued, by Chapter</h3>
+    <button type="button" class="submit" id="viewClaimsBtn" style="background:transparent;color:var(--green);border:1px solid var(--green);">View All Vouchers by Chapter</button>
+    <div class="error" id="claimsError"></div>
+    <div id="claimsResult" style="display:none;margin-top:12px;"></div>
+
+    <hr style="margin:24px 0;border:none;border-top:1px solid #c9e0c9;">
+
+    <h3>Check-In Summary</h3>
     <button type="button" class="submit" id="viewSummaryBtn" style="background:transparent;color:var(--green);border:1px solid var(--green);">View Check-In Summary</button>
     <div class="error" id="summaryError"></div>
     <div id="summaryResult" style="display:none;margin-top:12px;"></div>
@@ -891,6 +900,54 @@ walkInBtn.addEventListener('click', async () => {
 });
 
 /* -------- Check-In Summary -------- */
+/* -------- View All Vouchers by Chapter -------- */
+const viewClaimsBtn = document.getElementById('viewClaimsBtn');
+const claimsError = document.getElementById('claimsError');
+const claimsResult = document.getElementById('claimsResult');
+
+viewClaimsBtn.addEventListener('click', async () => {
+  claimsError.style.display = 'none';
+  claimsResult.style.display = 'none';
+  viewClaimsBtn.disabled = true;
+  viewClaimsBtn.textContent = 'Loading…';
+
+  try {
+    const res = await fetch(CONFIG.ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'viewClaimsByChapter', adminPasscode: adminPasscodeValue() })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      claimsError.textContent = data.error || 'Could not load vouchers.';
+      claimsError.style.display = 'block';
+    } else {
+      const chapters = Object.keys(data.byChapter).sort();
+      if (!chapters.length) {
+        claimsResult.innerHTML = `<p style="font-size:13px;color:#8a8a8a;">No vouchers have been claimed yet.</p>`;
+      } else {
+        let html = `<p style="font-size:13px;font-weight:700;margin-bottom:8px;">${data.total} ticket(s) issued total</p>`;
+        chapters.forEach(chapter => {
+          const people = data.byChapter[chapter];
+          html += `<div class="chapter-summary"><div class="chapter-title">${chapter} — ${people.length}</div>`;
+          people.forEach(p => { html += `<div class="person-row">${p.name} — ${TIER_LABELS[p.tier] || p.tier} — ${p.serial} — ${p.source}</div>`; });
+          html += `</div>`;
+        });
+        claimsResult.innerHTML = html;
+      }
+      claimsResult.style.display = 'block';
+    }
+  } catch (err) {
+    claimsError.textContent = 'Could not reach the server. Please try again.';
+    claimsError.style.display = 'block';
+  } finally {
+    viewClaimsBtn.disabled = false;
+    viewClaimsBtn.textContent = 'View All Vouchers by Chapter';
+  }
+});
+
+/* -------- View Check-In Summary -------- */
 const viewSummaryBtn = document.getElementById('viewSummaryBtn');
 const summaryError = document.getElementById('summaryError');
 const summaryResult = document.getElementById('summaryResult');
