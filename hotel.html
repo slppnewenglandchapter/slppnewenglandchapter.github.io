@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b5d36">
   <title>SLPP New England | Hotel Information</title>
-  <meta name="description" content="Scan this QR Code or Click to reserve your hotel for the SLPP New England Chapter Executive Inauguration Weekend, August 21–23, 2026, at Hyatt Place Boston/Braintree.">
+  <meta name="description" content="Reserve your hotel for the SLPP New England Chapter Executive Inauguration Weekend, August 21–23, 2026, at Hyatt Place Boston/Braintree.">
 
   <meta property="og:title" content="SLPP New England | Hotel Information">
   <meta property="og:description" content="Reserve your hotel for the SLPP New England Chapter Executive Inauguration Weekend, August 21–23, 2026, at Hyatt Place Boston/Braintree.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://slppnewenglandchapter.github.io/hotel.html">
-  <meta property="og:image" content="https://slppnewenglandchapter.github.io/slpp-hyatt-boston-og-compact.png">
-  <meta property="og:image:secure_url" content="https://slppnewenglandchapter.github.io/slpp-hyatt-boston-og-compact.png">
+  <meta property="og:image" content="https://slppnewenglandchapter.github.io/hotel-og.png">
+  <meta property="og:image:secure_url" content="https://slppnewenglandchapter.github.io/hotel-og.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1500">
@@ -21,7 +21,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="SLPP New England | Hotel Information">
   <meta name="twitter:description" content="Reserve your hotel for the SLPP New England Chapter Executive Inauguration Weekend, August 21–23, 2026.">
-  <meta name="twitter:image" content="https://slppnewenglandchapter.github.io/slpp-hyatt-boston-og-compact.png">
+  <meta name="twitter:image" content="https://slppnewenglandchapter.github.io/hotel-og.png">
   <meta name="twitter:image:alt" content="SLPP New England Chapter hotel booking information for Hyatt Place Boston/Braintree.">
 
 <style>
@@ -77,6 +77,26 @@
       border-radius:50%;
       box-shadow:0 0 0 36px rgba(255,255,255,.045),0 0 0 72px rgba(255,255,255,.03);
     }
+
+    .chapter-brand{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      margin-bottom:18px;
+      position:relative;
+      z-index:2;
+    }
+    .chapter-logo{
+      width:clamp(82px,11vw,126px);
+      height:clamp(82px,11vw,126px);
+      object-fit:contain;
+      flex:0 0 auto;
+      filter:drop-shadow(0 8px 16px rgba(0,0,0,.18));
+    }
+    .chapter-brand .chapter-kicker{
+      margin-bottom:0;
+    }
+
     .chapter-kicker{
       margin-bottom:18px;
     }
@@ -231,6 +251,10 @@
       body{padding:0;background:var(--cream)}
       .flyer{border-radius:0;min-height:100vh}
       .topband{padding:35px 24px 30px}
+
+      .chapter-brand{align-items:flex-start;gap:13px}
+      .chapter-logo{width:76px;height:76px}
+
       .content{grid-template-columns:1fr;padding:30px 24px 36px}
       .qr-card{max-width:360px;margin:0 auto;width:100%}
   
@@ -299,9 +323,12 @@
   <main class="page">
     <section class="flyer" aria-label="SLPP New England hotel information flyer">
       <header class="topband">
-        <div class="chapter-kicker">
-          <div class="chapter-main">SLPP NEW ENGLAND CHAPTER</div>
-          <div class="chapter-sub">Sierra Leone People’s Party North America</div>
+        <div class="chapter-brand">
+          <img class="chapter-logo" src="slppna-logo.png" alt="Sierra Leone People’s Party North America logo">
+          <div class="chapter-kicker">
+            <div class="chapter-main">SLPP NEW ENGLAND CHAPTER</div>
+            <div class="chapter-sub">Sierra Leone People’s Party North America</div>
+          </div>
         </div>
         <h1>Your Boston Stay Starts Here</h1>
         <p class="subtitle">Hotel accommodations for the Executive Inauguration Weekend. Reserve through the dedicated SLPP booking link.</p>
